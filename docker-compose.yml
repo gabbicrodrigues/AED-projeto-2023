@@ -1,43 +1,13 @@
 version: '3'
-
 services:
-  python-app:
+  your_app:
     build:
-      context: .
-      dockerfile: Dockerfile
-    mem_limit: 200m  # Definindo o limite de memória para 200 MB
-    command: python /app/app.py  
-    depends_on:
-      - postgres-db1
-      - postgres-db2
-      - postgres-db3
-
-  postgres-db1:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: db1
-      POSTGRES_USER: user1
-      POSTGRES_PASSWORD: pass1
-    mem_limit: 1g  # Definindo o limite de memória para 1 GB
+      context: .  # Docker context
+      dockerfile: Dockerfile  # Path to your Dockerfile
+    container_name: python-app
     volumes:
-      - ./db1:/var/lib/postgresql/data
-
-  postgres-db2:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: db2
-      POSTGRES_USER: user2
-      POSTGRES_PASSWORD: pass2
-    mem_limit: 5g  # Definindo o limite de memória para 5 GB
-    volumes:
-      - ./db2:/var/lib/postgresql/data
-
-  postgres-db3:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: db3
-      POSTGRES_USER: user3
-      POSTGRES_PASSWORD: pass3
-    mem_limit: 10g  # Definindo o limite de memória para 10 GB
-    volumes:
-      - ./db3:/var/lib/postgresql/data
+      - ./b-trees:/app/bin_files
+    deploy:
+      resources:
+        limits:
+          memory: 200M

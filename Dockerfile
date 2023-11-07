@@ -2,12 +2,9 @@ FROM python:3.9
 
 WORKDIR /app
 
-RUN apt-get install libpq-dev
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN pip install psycopg2
+COPY . .
 
-# Copia o script Python para o contêiner
-COPY app.py populate.py query.py  /app/
-
-# Comando para rodar a aplicação
-CMD ["python", "/app/app.py"]
+CMD ["python", "app.py"]
