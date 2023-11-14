@@ -1,13 +1,53 @@
 version: '3'
 services:
-  your_app:
+  python-api:
     build:
-      context: .  # Docker context
+      context: app  # Docker context
       dockerfile: Dockerfile  # Path to your Dockerfile
-    container_name: python-app
-    volumes:
-      - ./b-trees:/app/bin_files
+    container_name: python-api
+    environment:
+      - STORAGE1_URL=http://storage1
+      - STORAGE2_URL=http://storage2
+      - STORAGE3_URL=http://storage3
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
     deploy:
       resources:
         limits:
-          memory: 200M
+          memory: 200m
+
+  user-storage:
+    build:
+      context: user-storage
+      dockerfile: Dockerfile.storage
+    mem_limit: 200m  
+    ports:
+      - "5001:80"
+    networks:
+      - app-network
+
+  book-storage:
+    build:
+      context: book-storage
+      dockerfile: Dockerfile.storage
+    mem_limit: 200m
+    ports:
+      - "5002:80"
+    networks:
+      - app-network
+
+  rating-storage:
+    build:
+      context: rating-storage
+      dockerfile: Dockerfile.storage
+    mem_limit: 200m
+    ports:
+      - "5003:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
