@@ -5,10 +5,6 @@ services:
       context: app  # Docker context
       dockerfile: Dockerfile  # Path to your Dockerfile
     container_name: python-api
-    environment:
-      - STORAGE1_URL=http://storage1
-      - STORAGE2_URL=http://storage2
-      - STORAGE3_URL=http://storage3
     ports:
       - "5000:5000"
     networks:
@@ -16,7 +12,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 200m
+          memory: 24.5m
 
   user-storage:
     build:
